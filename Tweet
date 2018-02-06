@@ -1,0 +1,139 @@
+
+MIN_LENGTH = 1
+MAX_LENGTH = 140
+
+
+def is_valid_tweet(tweet):
+    
+    """ (str) -> bool
+    
+    precondition: tweet is a valid tweet when it contains between 1 and 140
+    characters long
+
+    Return True if and only if tweet is no less than 1 and no more 
+    than 140 characters long.
+
+    >>> is_valid_tweet('To me programming is more than an important ' \
+        + 'practical art. It is also a gigantic undertaking in the ' \
+        + 'foundations of knowledge. - Grace Hopper')
+    True
+    >>> is_valid_tweet('The best programs are written so that computing ' \
+        + 'machines can perform them quickly and so that human beings can ' \
+        + 'understand them clearly. - Donald Knuth')
+    False
+    """
+
+    return MIN_LENGTH <= len(tweet) <= MAX_LENGTH
+
+
+def contains_hash_symbol(tweet):
+    
+    
+    """ (str) -> bool
+    
+    precondition: tweet must be a valid tweet.
+    
+    Return True if and only if tweet contains a hash symbol in tweet.
+    
+    >>> contains_hash_symbol('This is really not a good result #lifesucks')
+    True
+    >>> contains_hash_symbol('Hi #goodday, YOLO')
+    True 
+    >>> contains_hash_symbol('exciting paris fashion week')
+    False
+    """
+    
+    return '#' in tweet
+
+
+def is_mentioned(tweet,user_name):
+    
+    """ (str, str) -> bool
+    
+    precondition: tweet must be a valid tweet and user_name must be a valid 
+    user name 
+    
+    Return True if and only if tweet mentions that user_name preceded by @. 
+    
+    >>> is_mentioned('How are you? @mariaaa','maria')
+    True 
+    >>> is_mentioned('Hi kimmy','kimmy')
+    False
+    """
+    
+    return '@' + user_name in tweet
+    
+
+def report_shortest(tweet_1,tweet_2):
+    
+    """ (str,str) -> str
+    
+    precondition: tweet_1 and tweet_2 must be a valid tweet. 
+    
+    Return 'Tweet 1' if the tweet_1 is shorter than tweet_2, 
+    'Tweet 2' if the tweet_2 is shorter than the tweet_1, and 
+    'Same length' if the tweets have the same length. 
+    
+    >>> report_shortest('how are you? @mariaaa','I am having a great day
+        @sam')
+    'Tweet 2'
+    >>> report_shortest('This homework is difficult','hi @maria')
+    'Tweet 1'
+    >>> report_shortest('I am good','I am fine')
+    'Same length'
+    """
+    
+    if len(tweet_1) == len(tweet_2):
+        return 'Same length'    
+    elif len(tweet_1) > len(tweet_2):
+        return 'Tweet 1'
+    else:
+        return 'Tweet 2'
+    
+    
+def is_reply(tweet):
+    
+    """ (str) -> bool
+    
+    precondition: tweet must be a valid tweet.
+    
+    Return True if and only if this tweet is a reply that start with @.
+    
+    >>>is_reply('@mariaaa I am good!')
+    True
+    >>>is_reply('mariaaa I am good!')
+    False
+    """
+    return tweet[0] == '@' 
+    
+
+def format_reply_to(user_name,tweet):
+    
+    """ (str, str) -> str
+    
+    precondition: user_name must be valid user name and tweet must be
+    a valid tweet. 
+    
+    Return a string that indicates how many extra characters there are
+    in tweet if tweet is at most 140 characters long. However, if tweet is
+    longer than 140, for example, tweet has 145 characters, then return
+    '5 characters too long'.
+    
+    >>> format_reply_to('maria','This is a great place to stay!')
+    @maria This is a great place to stay! 
+    >>> format_reply_to('david','Tycho brahe was born 3 years after death ' \
+        + 'of Copernicus. Learned in 1563 that observations on which ' \
+        + 'Polemaic and Copernican models were based were inaccurate')
+    '23 characters too long'
+    """
+    
+    reply = user_name + ' ' + tweet
+    
+    if user_name[0] != '@':
+        reply = '@' + reply
+        
+    if is_valid_tweet(reply): 
+        return reply         
+    
+    return str(len(reply) - MAX_LENGTH) + ' ' + 'characters too long' 
+    
